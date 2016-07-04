@@ -25,25 +25,27 @@ RUN sudo apt-get install -yq nodejs
 # Install MEAN.JS Prerequisites
 RUN npm install --quiet -g grunt-cli gulp bower yo mocha karma-cli pm2 forever
 
-RUN mkdir /opt/mean.js
-RUN mkdir -p /opt/mean.js/public/lib
-WORKDIR /opt/mean.js
+#ENV DIRPATH /cloud9/workspace/mean
+
+RUN mkdir -p /cloud9/workspace/mean 
+RUN mkdir -p /cloud9/workspace/mean/public/lib
+WORKDIR /cloud9/workspace/mean
 
 # Copies the local package.json file to the container
 # and utilities docker container cache to not needing to rebuild
 # and install node_modules/ everytime we build the docker, but only
 # when the local package.json file changes.
 # Install npm packages
-ADD package.json /opt/mean.js/package.json
+COPY package.json /cloud9/workspace/mean/package.json
 RUN npm install --quiet
 
 # Install bower packages
-ADD bower.json /opt/mean.js/bower.json
-ADD .bowerrc /opt/mean.js/.bowerrc
+COPY bower.json /cloud9/workspace/mean/bower.json
+COPY .bowerrc /cloud9/workspace/mean/.bowerrc
 RUN bower install --quiet --allow-root --config.interactive=false
 
 # Share local directory on the docker container
-ADD . /opt/mean.js
+COPY . /cloud9/workspace/mean/
 
 # Machine cleanup
 RUN npm cache clean
