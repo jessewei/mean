@@ -1,8 +1,8 @@
 # Build:
-# docker build -t meanjs/mean .
+# docker build -t jessewei/mean .
 #
 # Run:
-# docker run -it meanjs/mean
+# docker run -it jessewei/mean
 #
 # Compose:
 # docker-compose up -d
